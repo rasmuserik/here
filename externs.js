@@ -15,6 +15,31 @@ Object.prototype.send = function() {};
 Object.prototype.header = function() {};
 Object.prototype.removeHeader = function() {};
 Object.prototype.parseFromString = function() {};
+
+// solsort
 window.onSolsortReady = function() {};
 window.applicationCache = {};
 window.applicattionCache.onupdateready = function() {};
+
+// leaflet
+Object.prototype.addTo = function() {};
+Object.prototype.tileLayer = function() {};
+Object.prototype.map = function() {};
+Object.prototype.marker = function() {};
+Object.prototype.setView = function() {};
+Object.prototype.icon = function() {};
+Object.prototype.markerClusterGroup = function() {};
+Object.prototype.attributionControl = {};
+Object.prototype.setPrefix = function() {};
+Object.prototype.on = function() {};
+Object.prototype.getCenter = function() {};
+Object.prototype.getZoom = function() {};
+Object.prototype.addLayer = function() {};
+Object.prototype.target = {};
+Object.prototype.lat = {};
+Object.prototype.lng = {};
+
+// openplatform
+var dbcOpenPlatform = {};
+dbcOpenPlatform.connected = function() {};
+dbcOpenPlatform.connect = function() {};

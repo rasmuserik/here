@@ -4,7 +4,7 @@
    [reagent.ratom :as ratom :refer  [reaction]]
    [clojure.string :as string])
   (:require
-   [solsort.toolbox.setup]
+   ;[solsort.toolbox.setup]
    [solsort.toolbox.appdb :refer [db db!]]
    [solsort.util
     :refer
@@ -21,8 +21,12 @@
     (db! [:map :pos] pos)
     ))
 (def hash-pos (js->clj (.split (.slice js/location.hash 1) ":")))
+(when (= hash-pos [""])
+  (def hash-pos ["55" "10" "3"]))
+
 (db! [:marker-pos] (subvec hash-pos 0 2))
 (defn app []
+  (log 'app)
   [:div
   [openstreetmap
    {:db [:map]
@@ -39,6 +43,8 @@
            :font-family "sans-serif"
            :text-shadow "0px 0px 3px white"
            :bottom 0}}
-    "Share location with a link."]]
+    "Share location with a link." [:br]
+    ;[:span.button "GPS"]
+    ]]
   )
 (render [app])
