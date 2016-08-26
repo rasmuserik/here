@@ -3,12 +3,13 @@
   :dependencies
   [[org.clojure/clojure "1.8.0"]
    [org.clojure/clojurescript "1.9.225"]
-   [org.clojure/core.async "0.2.374"]
+   [org.clojure/core.async "0.2.385"]
    [cljsjs/localforage "1.3.1-0"]
-   [com.cognitect/transit-cljs "0.8.237"]
+   [com.cognitect/transit-cljs "0.8.239"]
+   #_[cljsjs/phaser "2.6.1-0"]
    [reagent "0.6.0-rc"]
-   [com.rpl/specter "0.11.2"]
-   [binaryage/devtools "0.6.1"]]
+   [com.rpl/specter "0.12.0"]
+   [binaryage/devtools "0.8.1"]]
 
   :plugins
   [[lein-cljsbuild "1.1.3"]
@@ -22,7 +23,7 @@
   :profiles
   {:dev
    {:dependencies [
-                   [figwheel-sidecar "0.5.4-3"]
+                   [figwheel-sidecar "0.5.6"]
                    [com.cemerick/piggieback "0.2.1"]]
     :plugins      [[lein-figwheel "0.5.4-3"]
                    [cider/cider-nrepl "0.13.0-SNAPSHOT"]]
