@@ -1,0 +1,6 @@
+[[https://waffle.io/solsort/here][https://badge.waffle.io/solsort/here.png]]
+[[https://travis-ci.org/solsort/here][https://travis-ci.org/solsort/here.png]]
+
+* Here [[https://here.solsort.com/icon-small.png]]
+
+Simple app to share a map position
