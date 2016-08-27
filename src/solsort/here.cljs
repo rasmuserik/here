@@ -15,7 +15,7 @@
    [solsort.toolbox.leaflet :refer [openstreetmap]]))
 
 (defn hash-url []
-  (str "https://here.solsort.com/#"
+  (str "https://here.solsort.com/?"
        (clojure.string/join ":" (conj (db [:marker-pos]) (db [:map :zoom])))))
 (defn pin [pos]
   (let [zoom (db [:map :zoom])]
@@ -62,11 +62,13 @@
      "Share" [:br] "location"]
     (and (db [:marker-pos]) "")
     [:a {:style button-style
-         :href (str "geo:" (clojure.string/join ":" (db [:marker-pos])))} "open" [:br] "geo"]
+         :href (str "geo:" (clojure.string/join "," (db [:marker-pos])))} "open" [:br] "geo"]
     [:a {:style button-style
          :href (str "mailto:?subject=here&body=" (hash-url))} "open" [:br] "email"]
     [:a {:style button-style
-         :href (str "sms:?&body=Here " (hash-url))} "open" [:br] "sms"]
+         :href (str "sms:12345678?&body=Here " (hash-url))} "open" [:br] "sms"]
+    [:a {:style button-style
+         :href (str "mms:12345678?&body=Here " (hash-url))} "open" [:br] "mms"]
     ;[:span.button "GPS"]
     ]]
   )
