@@ -36,7 +36,7 @@
 
 (def url-pos (js->clj (.split (.slice js/location.search 1) ":")))
 (when (= url-pos [""])
-  (def url-pos ["55" "10" "3"])
+  (def url-pos ["55.7049" "12.5648" "17"])
   (js/setTimeout gps 100))
 
 (db! [:marker-pos] (subvec url-pos 0 2))
