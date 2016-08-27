@@ -33,13 +33,12 @@
                    :vertical-align :middle
                    :border-radius 8
                    :padding 5
-                   :height 34
+                   :height 28
                    :box-shadow "1px 1px 3px black"
                    :text-align "center"
                    :text-decoration :none
                    :color :black
-                   :font-weight :bold
-                   :margin 5
+                   :margin 3
                    :background "rgba(255,255,255,0.7)"})
 (defn app []
   [:div
@@ -50,25 +49,26 @@
     :zoom0 (nth hash-pos 2)
     :style {:position :absolute
             :top 0 :left 0
+            :z-index 0
             :height "100%" :width "100%"}}
    [:marker {:pos (db [:marker-pos])}]]
    [:div {:style
           {:position :absolute
+           :font-size 12
            :font-family "sans-serif"
            :text-shadow "0px 0px 3px white"
            :bottom 0}}
-    [:div {:style {:display :inline-block
-                   :vertical-align :middle}}
-     "Share" [:br] "location"]
+    
     (and (db [:marker-pos]) "")
+    "Click to set the marker." [:br]
+    [:a {:style button-style}
+     "Current" [:br] "location"]
     [:a {:style button-style
-         :href (str "geo:" (clojure.string/join "," (db [:marker-pos])))} "open" [:br] "geo"]
+         :href (str "geo:" (clojure.string/join "," (db [:marker-pos])))} "Open" [:br] "in map"]
     [:a {:style button-style
-         :href (str "mailto:?subject=here&body=" (hash-url))} "open" [:br] "email"]
+         :href (str "mailto:?subject=here&body=" (hash-url))} "Share" [:br] "as email"]
     [:a {:style button-style
-         :href (str "sms:12345678?&body=Here " (hash-url))} "open" [:br] "sms"]
-    [:a {:style button-style
-         :href (str "mms:12345678?&body=Here " (hash-url))} "open" [:br] "mms"]
+         :href (str "sms:?&body=Here " (hash-url))} "Share" [:br] "as sms"]
     ;[:span.button "GPS"]
     ]]
   )
