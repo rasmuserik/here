@@ -17,15 +17,25 @@
 (defn hash-url []
   (str "https://here.solsort.com/?"
        (clojure.string/join ":" (conj (db [:marker-pos]) (db [:map :zoom])))))
+
 (defn pin [pos]
   (let [zoom (db [:map :zoom])]
     (aset js/location "hash" (clojure.string/join ":" (conj pos zoom)))
-    (db! [:marker-pos] pos)
-    ;(db! [:map :pos] pos)
-    ))
+    (db! [:marker-pos] pos)))
+
+(defn handle-gps [o]
+  (let [coords (aget o "coords")
+        pos [(aget coords "latitude") (aget coords "longitude")]]
+    (when coords
+      (db! [:map :zoom] 13)
+      (pin pos)
+      (db! [:map :pos] pos))))
+(defn gps [] (js/navigator.geolocation.getCurrentPosition handle-gps))
+
 (def hash-pos (js->clj (.split (.slice js/location.hash 1) ":")))
 (when (= hash-pos [""])
-  (def hash-pos ["55" "10" "3"]))
+  (def hash-pos ["55" "10" "3"])
+  (js/setTimeout gps 100))
 
 (db! [:marker-pos] (subvec hash-pos 0 2))
 
@@ -40,6 +50,7 @@
                    :color :black
                    :margin 3
                    :background "rgba(255,255,255,0.9)"})
+
 (defn app []
   [:div
   [openstreetmap
@@ -58,7 +69,7 @@
            :font-family "sans-serif"
            ;:text-shadow "0px 0px 3px white"
            :bottom 0}}
-    
+
     (and (db [:marker-pos]) "")
     [:span {:style
             {
@@ -72,7 +83,8 @@
 
             }}
      "Click to set the marker."] [:br]
-    [:a {:style button-style}
+    [:span {:style button-style
+            :on-click gps}
      "Mark my" [:br] "location"]
     [:span {:style button-style
             :on-click #(db! [:map :pos] (db [:marker-pos]))}
