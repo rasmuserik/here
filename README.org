@@ -5,6 +5,6 @@
 
 Simple app to share a map position.
 
-Try it online on https://here.solsort.com/. Optimised for moibile.
+Try it online on https://here.solsort.com/. Optimised for mobile.
 
 Just place the marker on the map, and then send the url for the marker as sms or email.
