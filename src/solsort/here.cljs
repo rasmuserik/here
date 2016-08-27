@@ -74,6 +74,9 @@
      "Click to set the marker."] [:br]
     [:a {:style button-style}
      "Mark my" [:br] "location"]
+    [:span {:style button-style
+            :on-click #(db! [:map :pos] (db [:marker-pos]))}
+     "Center" [:br] "marker"]
     [:a {:style button-style
          :href (str "geo:" (clojure.string/join "," (db [:marker-pos])))} "Open" [:br] "in map"]
     [:a {:style button-style
