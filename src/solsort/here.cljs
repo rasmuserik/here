@@ -39,7 +39,7 @@
                    :text-decoration :none
                    :color :black
                    :margin 3
-                   :background "rgba(255,255,255,0.7)"})
+                   :background "rgba(255,255,255,0.9)"})
 (defn app []
   [:div
   [openstreetmap
@@ -56,13 +56,24 @@
           {:position :absolute
            :font-size 12
            :font-family "sans-serif"
-           :text-shadow "0px 0px 3px white"
+           ;:text-shadow "0px 0px 3px white"
            :bottom 0}}
     
     (and (db [:marker-pos]) "")
-    "Click to set the marker." [:br]
+    [:span {:style
+            {
+             :display :inline-block
+             :box-shadow "0px 0px 5px white"
+             :text-align "center"
+             :border-radius 20
+             :color :black
+             :margin 3
+             :background "rgba(255,255,255,0.7)"
+
+            }}
+     "Click to set the marker."] [:br]
     [:a {:style button-style}
-     "Current" [:br] "location"]
+     "Mark my" [:br] "location"]
     [:a {:style button-style
          :href (str "geo:" (clojure.string/join "," (db [:marker-pos])))} "Open" [:br] "in map"]
     [:a {:style button-style
