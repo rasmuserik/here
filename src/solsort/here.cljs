@@ -14,13 +14,15 @@
    [cljs.core.async :refer [>! <! chan put! take! timeout close! pipe]]
    [solsort.toolbox.leaflet :refer [openstreetmap]]))
 
-(defn hash-url []
+(defn url []
   (str "https://here.solsort.com/?"
        (clojure.string/join ":" (conj (db [:marker-pos]) (db [:map :zoom])))))
 
 (defn pin [pos]
   (let [zoom (db [:map :zoom])]
-    (aset js/location "hash" (clojure.string/join ":" (conj pos zoom)))
+    (js/history.pushState
+     nil nil
+     (str "?" (clojure.string/join ":" (conj pos zoom))))
     (db! [:marker-pos] pos)))
 
 (defn handle-gps [o]
@@ -32,13 +34,19 @@
       (db! [:map :pos] pos))))
 (defn gps [] (js/navigator.geolocation.getCurrentPosition handle-gps))
 
-(def hash-pos (js->clj (.split (.slice js/location.hash 1) ":")))
-(when (= hash-pos [""])
-  (def hash-pos ["55" "10" "3"])
+(def url-pos (js->clj (.split (.slice js/location.search 1) ":")))
+(when (= url-pos [""])
+  (def url-pos ["55" "10" "3"])
   (js/setTimeout gps 100))
 
-(db! [:marker-pos] (subvec hash-pos 0 2))
+(db! [:marker-pos] (subvec url-pos 0 2))
 
+(aset js/window "onpopstate"
+      (fn []
+       (let [[lat lng zoom] (js->clj (.split (.slice js/location.search 1) ":"))]
+         (db! [:map :zoom] zoom)
+         (db! [:map :pos] [lat lng])
+         (db! [:marker-pos] [lat lng]))))
 (def button-style {:display :inline-block
                    :vertical-align :middle
                    :border-radius 8
@@ -56,8 +64,8 @@
   [openstreetmap
    {:db [:map]
     :on-click #(pin (:pos %))
-    :pos0 (subvec hash-pos 0 2)
-    :zoom0 (nth hash-pos 2)
+    :pos0 (subvec url-pos 0 2)
+    :zoom0 (nth url-pos 2)
     :style {:position :absolute
             :top 0 :left 0
             :z-index 0
@@ -92,9 +100,9 @@
     [:a {:style button-style
          :href (str "geo:" (clojure.string/join "," (db [:marker-pos])))} "Open" [:br] "in map"]
     [:a {:style button-style
-         :href (str "mailto:?subject=here&body=" (hash-url))} "Share" [:br] "as email"]
+         :href (str "mailto:?subject=here&body=" (url))} "Share" [:br] "as email"]
     [:a {:style button-style
-         :href (str "sms:?&body=Here " (hash-url))} "Share" [:br] "as sms"]
+         :href (str "sms:?&body=Here " (url))} "Share" [:br] "as sms"]
     ;[:span.button "GPS"]
     ]]
   )
