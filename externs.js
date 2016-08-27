@@ -38,6 +38,9 @@ Object.prototype.addLayer = function() {};
 Object.prototype.target = {};
 Object.prototype.lat = {};
 Object.prototype.lng = {};
+Object.prototype.setLatLng = {};
+Object.prototype.update = {};
+Object.prototype.getCenter = {};
 
 // openplatform
 var dbcOpenPlatform = {};
